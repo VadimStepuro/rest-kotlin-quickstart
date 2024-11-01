@@ -1,0 +1,7 @@
+quarkus:
+  datasource:
+    db-kind: postgresql
+    jdbc:
+      url: jdbc:postgresql://localhost:5432/public
+    username: bcrd_worker
+    password: bcrd_worker
