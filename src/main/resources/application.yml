@@ -1,7 +1,24 @@
 quarkus:
+  hibernate-orm:
+    database:
+      generation: drop-and-create
   datasource:
     db-kind: postgresql
     jdbc:
-      url: jdbc:postgresql://localhost:5432/public
-    username: bcrd_worker
-    password: bcrd_worker
+      url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
+    password: 1111
+
+mp:
+  messaging:
+    incoming:
+      creation-event:
+        connector: smallrye-kafka
+        bootstrap:
+          servers: localhost:29092
+    outgoing:
+      creation-notify:
+        connector: smallrye-kafka
+        topic: prices
+        bootstrap:
+          servers: localhost:29092

@@ -2,6 +2,7 @@ package org.acme.storage
 
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import org.acme.model.CreateStorageModel
 import org.acme.model.StorageModel
 import org.acme.model.db.StorageEntity
 import org.acme.storage.mapper.StorageEntityMapper
@@ -28,9 +29,9 @@ class StorageEntityStorageService {
         return storageEntities.map { mapper.mapToStorageModel(it) };
     }
 
-    fun save(storageModel: StorageModel): StorageModel {
+    fun save(storageModel: CreateStorageModel): StorageModel {
         val storageEntity = mapper.mapToStorageEntity(storageModel);
-        repository.persist(storageEntity);
+        repository.persistAndFlush(storageEntity);
 
         return mapper.mapToStorageModel(storageEntity);
     }

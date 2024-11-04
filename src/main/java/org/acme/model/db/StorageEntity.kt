@@ -1,6 +1,5 @@
 package org.acme.model.db
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
@@ -8,24 +7,25 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Entity
-@Table(name = "message_to_send")
-class StorageEntity {
+@Table(name = "storage_entity")
+open class StorageEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", nullable = false)
     var id: UUID? = null
 
-    @Column(name ="name")
+    @Column(name = "name", nullable = false)
     var name: String? = null
 
-    @Column(name ="description")
+    @Column(name = "description", nullable = false)
     var description: String? = null
 
-    @Column(name ="created")
+    @Column(name = "created", nullable = false)
     @CreationTimestamp
     var created: LocalDateTime? = null
 
-    @Column(name ="updated")
+    @Column(name = "updated", nullable = false)
     @UpdateTimestamp
     var updated: LocalDateTime? = null
 }

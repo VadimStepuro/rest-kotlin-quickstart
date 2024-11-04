@@ -1,7 +1,9 @@
 package org.acme.service.mapper
 
 import jakarta.enterprise.context.ApplicationScoped
+import org.acme.model.CreateStorageModel
 import org.acme.model.StorageModel
+import org.acme.web.dto.CreateStorageDto
 import org.acme.web.dto.StorageDto
 
 @ApplicationScoped
@@ -25,5 +27,12 @@ class StorageModelMapper {
             created = storageDto.created,
             updated = storageDto.updated
         )
+    }
+
+    fun mapToStorageModel(createStorageDto: CreateStorageDto): CreateStorageModel {
+        return CreateStorageModel(
+            name = createStorageDto.name,
+            description = createStorageDto.description
+        );
     }
 }

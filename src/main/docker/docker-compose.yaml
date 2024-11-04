@@ -1,0 +1,114 @@
+version: '3'
+
+networks:
+  common-network:
+    name: common-network
+    driver: bridge
+    external: false
+
+services:
+  db:
+    container_name: db
+    image: "postgres"
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: pg_isready -U $$POSTGRES_USER
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - common-network
+
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    container_name: cache
+    ports:
+      - "6379:6379"
+    environment:
+      REDIS_PASSWORD: my-password
+      REDIS_PORT: 6379
+    volumes:
+      - cache:/data
+    networks:
+      - common-network
+
+  zookeeper:
+    image: 'bitnami/zookeeper:3.9.1'
+    container_name: zookeeper
+    expose:
+      - 2181
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - common-network
+    volumes:
+      - zookeeper_data:/bitnami
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "29092:29092"
+    hostname: kafka
+    container_name: kafka9
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+    networks:
+      - common-network
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:7
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - common-network
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "8083:8080"
+    environment:
+      DYNAMIC_CONFIG_ENABLED: "true"
+    networks:
+      - common-network
+    volumes:
+      - kafka_ui_data:/etc/kafkaui
+
+volumes:
+  db_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+  cache:
+    driver: local
+  kafka_data:
+    driver: local
+  zookeeper_data:
+    driver: local
+  kafka_ui_data:
+    driver: local

@@ -2,8 +2,10 @@ package org.acme.service
 
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import jakarta.transaction.Transactional
 import org.acme.service.mapper.StorageModelMapper
 import org.acme.storage.StorageEntityStorageService
+import org.acme.web.dto.CreateStorageDto
 import org.acme.web.dto.StorageDto
 import java.util.*
 
@@ -24,7 +26,8 @@ class StorageModelService {
         return storageModels.map { mapper.mapToStorageDto(it) };
     }
 
-    fun save(storageDto: StorageDto): StorageDto {
+    @Transactional
+    fun save(storageDto: CreateStorageDto): StorageDto {
         val storageModel = mapper.mapToStorageModel(storageDto);
         val savedModel = storageEntityStorageService.save(storageModel);
 
