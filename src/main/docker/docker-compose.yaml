@@ -52,11 +52,9 @@ services:
       ALLOW_ANONYMOUS_LOGIN: yes
     networks:
       - common-network
-    volumes:
-      - zookeeper_data:/bitnami
 
   kafka:
-    image: confluentinc/cp-kafka:latest
+    image: bitnami/kafka:3.8
     depends_on:
       - zookeeper
     ports:

@@ -9,19 +9,19 @@ import org.acme.model.db.StorageEntity
 class StorageEntityMapper {
 
     fun mapToStorageEntity(storageModel: StorageModel): StorageEntity {
-        val storageEntity = StorageEntity();
+        val storageEntity = StorageEntity()
 
-        storageEntity.name = storageModel.name;
-        storageEntity.description = storageModel.description;
-        return storageEntity;
+        storageEntity.name = storageModel.name
+        storageEntity.description = storageModel.description
+        return storageEntity
     }
 
     fun mapToStorageEntity(storageModel: CreateStorageModel): StorageEntity {
-        val storageEntity = StorageEntity();
+        val storageEntity = StorageEntity()
 
-        storageEntity.name = storageModel.name;
-        storageEntity.description = storageModel.description;
-        return storageEntity;
+        storageEntity.name = storageModel.name
+        storageEntity.description = storageModel.description
+        return storageEntity
     }
 
     fun mapToStorageModel(storageEntity: StorageEntity): StorageModel {
@@ -31,6 +31,6 @@ class StorageEntityMapper {
             description = storageEntity.description!!,
             created = storageEntity.created!!,
             updated = storageEntity.updated!!,
-        );
+        )
     }
 }

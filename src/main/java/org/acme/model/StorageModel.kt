@@ -4,9 +4,9 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 data class StorageModel(
-    var id: UUID,
-    var name: String,
-    var description: String,
-    var created: LocalDateTime,
-    var updated: LocalDateTime
+    val id: UUID,
+    val name: String,
+    val description: String,
+    val created: LocalDateTime,
+    val updated: LocalDateTime
 )

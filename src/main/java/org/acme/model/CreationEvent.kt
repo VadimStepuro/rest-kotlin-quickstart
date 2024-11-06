@@ -1,9 +1,12 @@
 package org.acme.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class CreationEvent(
-    var name: String,
-    var description: String
+    @field:JsonProperty("name")
+    val name: String,
+    @field:JsonProperty("description")
+    val description: String
 )

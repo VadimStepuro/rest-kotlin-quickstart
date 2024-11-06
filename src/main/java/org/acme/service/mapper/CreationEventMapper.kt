@@ -11,7 +11,7 @@ class CreationEventMapper {
         return CreateStorageModel(
             name = event.name,
             description = event.description
-        );
+        )
     }
 
     fun mapToNotifyEvent(event: CreationEvent): CreationNotifyEvent {

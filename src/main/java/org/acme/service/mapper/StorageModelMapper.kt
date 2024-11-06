@@ -33,6 +33,6 @@ class StorageModelMapper {
         return CreateStorageModel(
             name = createStorageDto.name,
             description = createStorageDto.description
-        );
+        )
     }
 }

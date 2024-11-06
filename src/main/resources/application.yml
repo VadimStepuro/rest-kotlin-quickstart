@@ -1,24 +1,43 @@
 quarkus:
   hibernate-orm:
     database:
-      generation: drop-and-create
+      generation: none
   datasource:
     db-kind: postgresql
     jdbc:
-      url: jdbc:postgresql://localhost:5433/postgres
-    username: postgres
-    password: 1111
+      url: jdbc:postgresql://${DB_URL:localhost:5433}/${DB_NAME:postgres}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:1111}
+    devservices:
+      enabled: false
+  liquibase:
+    migrate-at-start: true
+    change-log: db/changelog.xml
+    default-schema-name: ${DB_NAME:public}
+
+kafka:
+  devservices:
+    enabled: false
+  bootstrap:
+    servers: ${KAFKA_SERVER:localhost:9092}
+
 
 mp:
   messaging:
     incoming:
       creation-event:
         connector: smallrye-kafka
-        bootstrap:
-          servers: localhost:9092
+        topic: ${KAFKA_TOPIC_BLOCK:creation-event}
+        groupId: create_event_consumer
+        auto:
+          offset:
+            reset: earliest
+        enable:
+          auto:
+            commit: false
+        ack:
+          strategy: manual
     outgoing:
       creation-notify:
         connector: smallrye-kafka
-        topic: prices
-        bootstrap:
-          servers: localhost:9092
+        topic: creation-notify

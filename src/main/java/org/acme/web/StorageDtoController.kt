@@ -17,7 +17,7 @@ import java.util.*
 @Produces(MediaType.APPLICATION_JSON)
 class StorageDtoController {
     @Inject
-    lateinit var service: StorageModelService;
+    private lateinit var service: StorageModelService
 
     @GET
     @Path("/{id}")

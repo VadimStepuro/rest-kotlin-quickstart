@@ -5,14 +5,14 @@ import java.time.LocalDateTime
 import java.util.*
 
 data class StorageDto(
-    @JsonProperty("id")
-    var id: UUID,
-    @JsonProperty("name")
-    var name: String,
-    @JsonProperty("description")
-    var description: String,
-    @JsonProperty("created")
-    var created: LocalDateTime,
-    @JsonProperty("updated")
-    var updated: LocalDateTime
+    @field:JsonProperty("id")
+    val id: UUID,
+    @field:JsonProperty("name")
+    val name: String,
+    @field:JsonProperty("description")
+    val description: String,
+    @field:JsonProperty("created")
+    val created: LocalDateTime,
+    @field:JsonProperty("updated")
+    val updated: LocalDateTime
 )
