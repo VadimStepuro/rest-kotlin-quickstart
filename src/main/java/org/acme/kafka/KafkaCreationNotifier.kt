@@ -28,7 +28,7 @@ class KafkaCreationNotifier {
         val message = creationEventMapper.mapToStorageModel(messageToNotify)
         val messagePayload = Json.encodeToString(message)
 
-        notifyEmitter.send(messagePayload)
+        notifyEmitter.send(messagePayload).toCompletableFuture().join()
         logger.info("Sent message for other systems: $messagePayload")
     }
 }

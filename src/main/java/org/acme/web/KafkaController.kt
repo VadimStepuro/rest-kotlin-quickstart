@@ -22,6 +22,7 @@ class KafkaController {
     fun notify(creationEvent: CreationEvent) {
         notifier.notifyCreation(creationEvent)
         logger.info("Message was processed: $creationEvent")
+
     }
 
 }

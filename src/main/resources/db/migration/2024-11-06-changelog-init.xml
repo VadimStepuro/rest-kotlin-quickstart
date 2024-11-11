@@ -13,8 +13,8 @@
             </column>
             <column name="name" type="varchar(255)"/>
             <column name="description" type="text"/>
-            <column name="created_at" type="timestamp" defaultValue="now()"/>
-            <column name="updated_at" type="timestamp" defaultValue="now()"/>
+            <column name="created" type="timestamp" defaultValue="now()"/>
+            <column name="updated" type="timestamp" defaultValue="now()"/>
         </createTable>
     </changeSet>
 
