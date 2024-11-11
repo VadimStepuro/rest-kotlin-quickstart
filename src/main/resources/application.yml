@@ -4,6 +4,8 @@ quarkus:
       generation: none
   datasource:
     db-kind: postgresql
+    reactive:
+      url: postgresql://${DB_URL:localhost:5433}/${DB_NAME:postgres}
     jdbc:
       url: jdbc:postgresql://${DB_URL:localhost:5433}/${DB_NAME:postgres}
     username: ${DB_USER:postgres}

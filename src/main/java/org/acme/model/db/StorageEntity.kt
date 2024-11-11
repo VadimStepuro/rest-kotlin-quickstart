@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 import java.util.*
 
+@PersistenceUnit
 @Entity
 @Table(name = "storage_entity")
 open class StorageEntity {

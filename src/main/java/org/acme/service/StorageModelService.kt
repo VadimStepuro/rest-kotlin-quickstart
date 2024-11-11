@@ -1,5 +1,7 @@
 package org.acme.service
 
+import io.quarkus.hibernate.reactive.panache.common.WithSession
+import io.smallrye.mutiny.Uni
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.acme.service.mapper.StorageModelMapper
@@ -15,20 +17,24 @@ class StorageModelService {
     @Inject
     lateinit var mapper: StorageModelMapper
 
-    fun findById(id: UUID): StorageDto {
-        val storageModel = storageEntityStorageService.findById(id)
-        return mapper.mapToStorageDto(storageModel)
+    @WithSession
+    fun findById(id: UUID): Uni<StorageDto> {
+        return storageEntityStorageService.findById(id).map {
+            mapper.mapToStorageDto(it)
+        }
     }
 
-    fun findByName(name: String): List<StorageDto> {
-        val storageModels = storageEntityStorageService.findByName(name)
-        return storageModels.map { mapper.mapToStorageDto(it) }
+    @WithSession
+    fun findByName(name: String): Uni<List<StorageDto>> {
+        return storageEntityStorageService.findByName(name).map {
+            it.map { mapper.mapToStorageDto(it) }
+        }
     }
 
-    fun save(storageDto: CreateStorageDto): StorageDto {
+    fun save(storageDto: CreateStorageDto): Uni<StorageDto> {
         val storageModel = mapper.mapToStorageModel(storageDto)
-        val savedModel = storageEntityStorageService.save(storageModel)
-
-        return mapper.mapToStorageDto(savedModel)
+        return storageEntityStorageService.save(storageModel).map {
+            mapper.mapToStorageDto(it)
+        }
     }
 }
